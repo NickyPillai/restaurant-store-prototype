@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RestaurantStore.me — B2B Commercial Kitchen Equipment</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C8102E;--red-dark:#9B0B22;--red-light:#FDEEF1;
+  --black:#0D0D0D;--charcoal:#1A1A1A;
+  --gray-50:#F8F8F7;--gray-100:#EFEFED;--gray-200:#DDDDD9;--gray-400:#9A9A93;--gray-600:#5C5C58;
+  --white:#FFFFFF;
+  --font-head:Arial,Helvetica,sans-serif;--font-body:Arial,Helvetica,sans-serif;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;
+  --shadow-card:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --shadow-hover:0 4px 24px rgba(0,0,0,.12);
+  --transition:0.2s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);color:var(--black);background:var(--white);overflow-x:hidden;line-height:1.6}
+
+/* ── HEADER ─────────────────────────────────── */
+header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--gray-100)}
+.header-top{background:var(--black);color:var(--white);font-size:12px;padding:7px 0;text-align:center;letter-spacing:.04em}
+.header-top span{color:var(--red);font-weight:600}
+.header-main{display:flex;align-items:center;gap:20px;padding:0 32px;height:64px}
+.logo{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--black);text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.logo-dot{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block}
+.search-wrap{flex:1;max-width:560px;position:relative}
+.search-wrap input{width:100%;height:40px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);padding:0 44px 0 14px;font-family:var(--font-body);font-size:13.5px;color:var(--black);background:var(--gray-50);transition:var(--transition);outline:none}
+.search-wrap input:focus{border-color:var(--red);background:var(--white)}
+.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none}
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.btn-ghost{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:13px;font-family:var(--font-body);cursor:pointer;background:none;color:var(--charcoal);transition:var(--transition);white-space:nowrap}
+.btn-ghost:hover{border-color:var(--gray-400);background:var(--gray-50)}
+.btn-primary{display:flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:var(--font-head);cursor:pointer;background:var(--red);color:var(--white);transition:var(--transition);white-space:nowrap;letter-spacing:.02em}
+.btn-primary:hover{background:var(--red-dark);transform:translateY(-1px)}
+
+/* ── NAV BAR ─────────────────────────────────── */
+nav.main-nav{border-bottom:1px solid var(--gray-100);background:var(--white);position:relative;z-index:99}
+.nav-inner{display:flex;align-items:center;gap:0;padding:0 32px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-item{position:relative;flex-shrink:0}
+.nav-item > a{display:flex;align-items:center;gap:4px;padding:12px 16px;font-size:13px;font-weight:500;color:var(--charcoal);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:var(--transition)}
+.nav-item > a:hover,.nav-item.active > a{color:var(--red);border-bottom-color:var(--red)}
+.nav-item > a svg{transition:transform var(--transition)}
+.nav-item:hover > a svg{transform:rotate(180deg)}
+
+/* mega menu */
+.mega-menu{display:none;position:absolute;top:100%;left:-200px;width:720px;background:var(--white);border:1px solid var(--gray-100);border-radius:0 var(--radius-lg) var(--radius-lg) var(--radius-lg);box-shadow:var(--shadow-hover);padding:28px;z-index:200}
+.nav-item:hover .mega-menu{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mega-col-head{font-family:var(--font-head);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);padding:0 0 8px;border-bottom:1px solid var(--gray-100);margin-bottom:8px;grid-column:1/-1}
+.mega-link{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--charcoal);text-decoration:none;transition:var(--transition)}
+.mega-link:hover{background:var(--red-light);color:var(--red)}
+.mega-link-icon{width:28px;height:28px;background:var(--gray-50);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+
+/* ── HERO ─────────────────────────────────── */
+.hero{background:var(--gray-50);display:grid;grid-template-columns:220px 1fr 220px;min-height:420px;border-bottom:1px solid var(--gray-200);padding:16px;gap:12px;align-items:stretch}
+.hero-bg{display:none}
+.hero-grid-lines{display:none}
+.hero-accent{display:none}
+/* Left promo panel */
+.hero-content{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--gray-100);padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red-light);border:1px solid rgba(200,16,46,.2);border-radius:100px;padding:4px 12px;font-size:11px;color:var(--red);font-weight:700;letter-spacing:.04em;margin-bottom:12px;width:fit-content}
+.hero-title{font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--black);line-height:1.2;margin-bottom:10px}
+.hero-title em{color:var(--red);font-style:normal}
+.hero-sub{font-size:12px;color:var(--gray-600);font-weight:400;line-height:1.6}
+/* Center video panel */
+.hero-video-panel{position:relative;overflow:hidden;background:var(--black);border-radius:var(--radius-lg);border:1px solid var(--gray-200)}
+.hero-video-panel iframe{width:100%;height:100%;min-height:388px;border:none;display:block}
+/* Right promo panel */
+.hero-img-panel{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--gray-100);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding:0}
+.hero-img-panel img{display:none}
+.hero-img-overlay{display:none}
+.smart-search{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);position:relative;border:1.5px solid var(--gray-200)}
+.search-bar-row{display:flex;align-items:center;padding:6px 6px 6px 20px;gap:8px}
+.smart-input{flex:1;border:none;outline:none;font-size:14.5px;font-family:var(--font-body);color:var(--black);min-height:44px;background:transparent}
+.smart-input::placeholder{color:var(--gray-400)}
+.search-chips{padding:0 20px 14px;display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:4px 12px;border:1px solid var(--gray-200);border-radius:100px;font-size:12px;color:var(--gray-600);cursor:pointer;transition:var(--transition);background:var(--gray-50)}
+.chip:hover{border-color:var(--red);color:var(--red);background:var(--red-light)}
+
+/* search dropdown */
+.search-dropdown{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius-lg) var(--radius-lg);box-shadow:0 16px 40px rgba(0,0,0,.12);z-index:10;padding:16px}
+.search-dropdown.show{display:block}
+.sd-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);margin:8px 0 10px;font-family:var(--font-head)}
+.sd-product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.sd-card{border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:10px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:var(--transition)}
+.sd-card:hover{border-color:var(--red);background:var(--red-light)}
+.sd-img{width:44px;height:44px;background:var(--gray-100);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sd-name{font-size:12px;font-weight:500;line-height:1.3}
+.sd-price{font-size:11px;color:var(--red);font-weight:600}
+.sd-meta{display:flex;gap:8px;font-size:11px;color:var(--gray-600)}
+.sd-tag{background:var(--gray-100);padding:3px 10px;border-radius:100px}
+.sd-tag.price{background:#FFF7ED;color:#B44D00}
+.sd-tag.dim{background:#EFF6FF;color:#1D4ED8}
+
+/* ── TRUST STRIP ─────────────────────────────────── */
+.trust-strip{background:var(--gray-50);border-bottom:1px solid var(--gray-100);padding:20px 32px;display:flex;align-items:center;gap:40px}
+.trust-item{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.trust-icon{width:36px;height:36px;background:var(--black);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.trust-text{font-size:13px;font-weight:500}
+.trust-text small{display:block;font-weight:400;color:var(--gray-600);font-size:12px}
+
+/* ── CLIENTS MARQUEE ─────────────────────────────────── */
+.clients-section{padding:48px 0;overflow:hidden;border-bottom:1px solid var(--gray-100)}
+.section-label{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-400);font-family:var(--font-head);margin-bottom:24px}
+.marquee-wrap{display:flex;overflow:hidden;mask-image:linear-gradient(90deg,transparent,black 10%,black 90%,transparent)}
+.marquee-track{display:flex;gap:0;animation:marquee 30s linear infinite;flex-shrink:0}
+.marquee-track:last-child{margin-left:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.client-logo{padding:0 32px;display:flex;align-items:center;border-right:1px solid var(--gray-100)}
+.client-logo span{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--gray-200);letter-spacing:.02em;white-space:nowrap}
+.client-logo:hover span{color:var(--gray-400)}
+
+/* ── SECTION CHROME ─────────────────────────────────── */
+.section{padding:64px 32px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px}
+.section-title{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--black)}
+.section-title span{color:var(--red)}
+.view-all{font-size:13px;font-weight:600;color:var(--red);text-decoration:none;display:flex;align-items:center;gap:4px}
+
+/* ── DEALS TABS ─────────────────────────────────── */
+.tab-row{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap}
+.tab{padding:7px 18px;border:1.5px solid var(--gray-200);border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition);background:none;font-family:var(--font-body)}
+.tab:hover{border-color:var(--gray-400)}
+.tab.active{background:var(--black);color:var(--white);border-color:var(--black)}
+
+/* ── PRODUCT GRID ─────────────────────────────────── */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.product-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);overflow:hidden;transition:var(--transition);cursor:pointer;position:relative}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:var(--gray-200)}
+.card-img{height:168px;background:var(--gray-50);display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;border-bottom:1px solid var(--gray-100)}
+.badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:4px}
+.badge{padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-head)}
+.badge.rated{background:#0D0D0D;color:#FFF}
+.badge.deal{background:var(--red);color:#FFF}
+.badge.sale{background:#F59E0B;color:#78350F}
+.badge.new{background:#059669;color:#FFF}
+.quick-view{position:absolute;bottom:8px;right:8px;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:5px 12px;font-size:11.5px;font-weight:600;color:var(--charcoal);cursor:pointer;opacity:0;transition:var(--transition);font-family:var(--font-body)}
+.product-card:hover .quick-view{opacity:1}
+.quick-view:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+.card-body{padding:14px}
+.card-brand{font-size:11px;color:var(--gray-400);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.card-name{font-size:13.5px;font-weight:500;color:var(--charcoal);line-height:1.4;margin-bottom:10px;min-height:38px}
+.card-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.stars{color:#F59E0B;font-size:11px;letter-spacing:1px}
+.rating-count{font-size:11px;color:var(--gray-400)}
+.card-pricing{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.price-now{font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--red)}
+.price-old{font-size:12px;color:var(--gray-400);text-decoration:line-through}
+.discount-pct{font-size:11px;font-weight:700;color:#059669;background:#D1FAE5;padding:2px 6px;border-radius:4px}
+.card-footer{padding:0 14px 14px;display:flex;align-items:center;gap:8px}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--gray-200);border-radius:var(--radius-sm);overflow:hidden}
+.qty-btn{width:28px;height:28px;border:none;background:var(--gray-50);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.qty-btn:hover{background:var(--gray-100)}
+.qty-val{width:32px;text-align:center;font-size:13px;font-weight:500}
+.add-cart{flex:1;height:28px;background:var(--black);color:var(--white);border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-head);transition:var(--transition);letter-spacing:.02em}
+.add-cart:hover{background:var(--red)}
+
+/* ── LOYALTY BLOCK ─────────────────────────────────── */
+.loyalty-section{background:var(--black);padding:64px 32px}
+.loyalty-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
+.loyalty-card{background:#161616;border:1px solid #2a2a2a;border-radius:var(--radius-xl);padding:40px}
+.loyalty-card.accent{border-color:rgba(200,16,46,.25);background:linear-gradient(135deg,#1a0508 0%,#161616 100%)}
+.loyalty-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--red);font-weight:700;font-family:var(--font-head);margin-bottom:12px}
+.loyalty-title{font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--white);line-height:1.2;margin-bottom:16px}
+.loyalty-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:28px}
+.loyalty-perks{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.perk{display:flex;align-items:center;gap:10px;font-size:13.5px;color:rgba(255,255,255,.75)}
+.perk-icon{width:22px;height:22px;background:rgba(200,16,46,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;color:var(--red)}
+.bulk-rows{display:flex;flex-direction:column;gap:10px}
+.bulk-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1f1f1f;border-radius:var(--radius-md);border:1px solid #2a2a2a}
+.bulk-qty{font-size:13px;color:rgba(255,255,255,.6)}
+.bulk-save{font-size:14px;font-weight:700;color:#4ADE80;font-family:var(--font-head)}
+
+/* ── CATEGORY GRID ─────────────────────────────────── */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.cat-card{border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px 16px;text-align:center;cursor:pointer;transition:var(--transition);text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:10px}
+.cat-card:hover{border-color:var(--red);background:var(--red-light);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.cat-icon{font-size:32px}
+.cat-name{font-size:13px;font-weight:600;color:var(--charcoal);font-family:var(--font-head)}
+.cat-count{font-size:11px;color:var(--gray-400)}
+
+/* ── MODAL ─────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);width:90%;max-width:720px;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;background:var(--gray-100);border:none;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.modal-close:hover{background:var(--gray-200)}
+.modal-inner{display:grid;grid-template-columns:1fr 1fr;min-height:400px}
+.modal-img{background:var(--gray-50);border-radius:var(--radius-xl) 0 0 var(--radius-xl);display:flex;align-items:center;justify-content:center;font-size:80px;min-height:300px}
+.modal-info{padding:32px}
+.modal-brand{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);font-weight:600}
+.modal-name{font-family:var(--font-head);font-size:20px;font-weight:800;margin:8px 0 16px;line-height:1.3}
+.modal-price{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--red);margin-bottom:4px}
+.modal-old{font-size:14px;color:var(--gray-400);text-decoration:line-through;margin-bottom:20px}
+.spec-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:13px}
+.spec-label{color:var(--gray-600)}
+.spec-val{font-weight:500}
+
+/* ── FOOTER ─────────────────────────────────── */
+footer{background:var(--charcoal);color:rgba(255,255,255,.6);padding:48px 32px 24px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-logo{font-family:var(--font-head);font-size:18px;font-weight:800;color:var(--white);margin-bottom:12px}
+.footer-desc{font-size:13px;line-height:1.7;max-width:260px}
+.footer-head{font-family:var(--font-head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:14px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:var(--transition)}
+.footer-links a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;font-size:12px}
+
+/* ── NOTIFICATION ─────────────────────────────────── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--black);color:var(--white);padding:14px 20px;border-radius:var(--radius-md);font-size:13.5px;font-weight:500;z-index:999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:10px;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{width:22px;height:22px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div style="background:var(--red);color:#fff;text-align:center;padding:8px;font-size:12.5px;font-weight:500;letter-spacing:.04em">
+  🎯 Exclusive B2B Pricing — Up to <strong>35% off</strong> bulk orders. <a href="#loyalty" style="color:#fff;text-decoration:underline;margin-left:4px">Join the Loyalty Program →</a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-main">
+    <a href="#" class="logo"><span class="logo-dot"></span> RestaurantStore<span style="color:var(--red)">.</span>me</a>
+    <div class="search-wrap" style="display:none"></div>
+    <div class="header-actions">
+      <button class="btn-ghost" onclick="showToast('📦 Tracking your 3 active orders...')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Orders
+      </button>
+      <button class="btn-ghost" onclick="showToast('🔑 Redirecting to account portal...')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Account
+      </button>
+      <button class="btn-primary" onclick="showToast('📋 Quote request form opened!')">
+        Request Quote
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- SMART SEARCH BAR (above nav) -->
+<div style="background:var(--gray-50);border-bottom:1px solid var(--gray-100);padding:12px 32px">
+  <div class="smart-search" id="smartSearch" style="max-width:860px;margin:0 auto;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+    <div class="search-bar-row">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A9A93" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="smart-input" id="smartInput" placeholder="Search using natural language (e.g., 'plates which are 15 inch and less than 100 AED')" autocomplete="off" oninput="handleSearch(this.value)" onfocus="showDropdown()" onblur="setTimeout(hideDropdown,200)">
+      <button class="btn-primary" style="height:44px;padding:0 20px;font-size:13.5px">Search</button>
+    </div>
+    <div class="search-chips">
+      <span style="font-size:12px;color:var(--gray-400);margin-right:2px">Try:</span>
+      <span class="chip" onclick="runSampleSearch('combi oven under 30000 AED')">combi oven under 30000 AED</span>
+      <span class="chip" onclick="runSampleSearch('stainless steel table 2 meter')">stainless table 2m</span>
+      <span class="chip" onclick="runSampleSearch('gas regulator 2 inch')">gas regulator 2 inch</span>
+      <span class="chip" onclick="runSampleSearch('fry basket')">fry baskets</span>
+    </div>
+    <div class="search-dropdown" id="searchDropdown">
+      <div class="sd-section-label">Matching Products</div>
+      <div class="sd-product-grid" id="sdProducts"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="sd-section-label" style="width:100%;margin-top:4px">Filters Applied</div>
+        <div id="sdTags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <div class="nav-item">
+      <a href="#products">Kitchen Equipment
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+      <div class="mega-menu">
+        <div class="mega-col-head">Kitchen Equipment</div>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">🔥</span>Combi Ovens</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">❄️</span>Refrigeration</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">🍳</span>Cooking Ranges</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">⚗️</span>Deep Fryers</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">♨️</span>Steamers</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">🥤</span>Blenders & Mixers</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">🧊</span>Ice Machines</a>
+        <a class="mega-link" href="#products"><span class="mega-link-icon">🔧</span>Spare Parts</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#products">Stainless Steel</a></div>
+    <div class="nav-item"><a href="#products">Ventilation Systems</a></div>
+    <div class="nav-item"><a href="#products">Cold Rooms & Shelving</a></div>
+    <div class="nav-item"><a href="#products">Warewashing</a></div>
+    <div class="nav-item"><a href="#products">Food Prep</a></div>
+    <div class="nav-item"><a href="#products">Beverageware</a></div>
+    <div class="nav-item"><a href="#products">Packaging</a></div>
+    <div class="nav-item" style="margin-left:auto"><a href="#deals" style="color:var(--red);font-weight:600">Today's Deals 🔥</a></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- LEFT: Promo panel matching reference -->
+  <div class="hero-content">
+    <div>
+      <div style="font-size:11px;color:var(--red);font-weight:700;margin-bottom:4px">Get extra 5% off</div>
+      <h2 style="font-family:var(--font-head);font-size:26px;font-weight:800;line-height:1.15;margin-bottom:16px">
+        <em style="color:var(--red);font-style:normal">Fresh</em><br>Everyday
+      </h2>
+      <a href="#deals" style="display:inline-block;background:var(--black);color:#fff;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none;transition:var(--transition)" onmouseover="this.style.background='var(--red)'" onmouseout="this.style.background='var(--black)'">Shop now</a>
+    </div>
+    <!-- placeholder image block -->
+    <div style="flex:1;margin-top:20px;border-radius:var(--radius-md);background:var(--gray-100);border:1px dashed var(--gray-200);display:flex;align-items:center;justify-content:center;min-height:120px">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#BBBBB5" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </div>
+  </div>
+
+  <!-- CENTER: YouTube video -->
+  <div class="hero-video-panel">
+    <!-- Red badge overlay matching reference -->
+    <div style="position:absolute;top:16px;left:16px;z-index:10;background:var(--red);color:#fff;border-radius:50%;width:72px;height:72px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:800;line-height:1.2;box-shadow:0 4px 12px rgba(200,16,46,.4)">Upto<br>10% Off</div>
+    <iframe
+      src="https://www.youtube.com/embed/hcMx9flBdCA?autoplay=1&mute=1&loop=1&playlist=hcMx9flBdCA&controls=1&rel=0&modestbranding=1"
+      title="Convotherm Maxx Pro Combi Oven — Product Video"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- RIGHT: Promo panel matching reference -->
+  <div class="hero-img-panel">
+    <!-- Orange discount badge top right -->
+    <div style="padding:16px 16px 0;display:flex;justify-content:flex-end">
+      <div style="background:#F59E0B;color:#fff;border-radius:50%;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800">35%</div>
+    </div>
+    <!-- Placeholder image -->
+    <div style="flex:1;margin:12px 16px;border-radius:var(--radius-md);background:var(--gray-100);border:1px dashed var(--gray-200);display:flex;align-items:center;justify-content:center;min-height:120px">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#BBBBB5" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </div>
+    <!-- Bottom text block -->
+    <div style="padding:16px 20px 20px">
+      <h3 style="font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--black);margin-bottom:6px">Without<br>Science</h3>
+      <p style="font-size:12px;color:var(--gray-600);line-height:1.5;margin-bottom:14px">Everything for an easier start to the new year</p>
+      <a href="#deals" style="display:inline-block;background:var(--black);color:#fff;padding:9px 18px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;text-decoration:none;transition:var(--transition)" onmouseover="this.style.background='var(--red)'" onmouseout="this.style.background='var(--black)'">Shop now</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-item">
+    <div class="trust-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
+    <div class="trust-text">Free Delivery <small>Orders over AED 500</small></div>
+  </div>
+  <div style="width:1px;height:36px;background:var(--gray-200)"></div>
+  <div class="trust-item">
+    <div class="trust-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <div class="trust-text">2-Year Warranty <small>On all major equipment</small></div>
+  </div>
+  <div style="width:1px;height:36px;background:var(--gray-200)"></div>
+  <div class="trust-item">
+    <div class="trust-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+    <div class="trust-text">Same-Day Dispatch <small>For orders before 2 PM</small></div>
+  </div>
+  <div style="width:1px;height:36px;background:var(--gray-200)"></div>
+  <div class="trust-item">
+    <div class="trust-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.61 4.5 2 2 0 0 1 3.6 2.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.92 17z"/></svg></div>
+    <div class="trust-text">Dedicated B2B Support <small>+971 4 XXX XXXX</small></div>
+  </div>
+  <div style="margin-left:auto">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="font-family:var(--font-head);font-size:24px;font-weight:800;color:var(--black)">10,000+</div>
+      <div style="font-size:12px;color:var(--gray-600)">Active SKUs<br>in stock</div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENTS MARQUEE -->
+<section class="clients-section">
+  <div class="section-label">Trusted by UAE's Leading F&B Groups & Hotels</div>
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="client-logo"><span>JUMEIRAH GROUP</span></div>
+      <div class="client-logo"><span>EMAAR HOSPITALITY</span></div>
+      <div class="client-logo"><span>ROTANA HOTELS</span></div>
+      <div class="client-logo"><span>CATERING AUTHORITY</span></div>
+      <div class="client-logo"><span>HILTON UAE</span></div>
+      <div class="client-logo"><span>ALSHAYA GROUP</span></div>
+      <div class="client-logo"><span>TALABAT MARKET</span></div>
+      <div class="client-logo"><span>AZADEA GROUP</span></div>
+      <div class="client-logo"><span>RIXOS HOTELS</span></div>
+      <div class="client-logo"><span>ACCOR MENA</span></div>
+      <div class="client-logo"><span>FIVE HOTELS</span></div>
+      <div class="client-logo"><span>DUBAI AIRPORTS</span></div>
+      <!-- duplicate for seamless loop -->
+      <div class="client-logo"><span>JUMEIRAH GROUP</span></div>
+      <div class="client-logo"><span>EMAAR HOSPITALITY</span></div>
+      <div class="client-logo"><span>ROTANA HOTELS</span></div>
+      <div class="client-logo"><span>CATERING AUTHORITY</span></div>
+      <div class="client-logo"><span>HILTON UAE</span></div>
+      <div class="client-logo"><span>ALSHAYA GROUP</span></div>
+      <div class="client-logo"><span>TALABAT MARKET</span></div>
+      <div class="client-logo"><span>AZADEA GROUP</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TODAY'S DEALS -->
+<section class="section" id="deals">
+  <div class="section-head">
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-family:var(--font-head);margin-bottom:6px">Live Pricing · Updated hourly</div>
+      <h2 class="section-title">Today's <span>Deals</span></h2>
+    </div>
+    <a href="#" class="view-all">View all deals →</a>
+  </div>
+  <div class="tab-row" id="dealTabs">
+    <button class="tab active" onclick="filterDeals('all',this)">All</button>
+    <button class="tab" onclick="filterDeals('cooking',this)">Cooking Equipment</button>
+    <button class="tab" onclick="filterDeals('spare',this)">Spare Parts</button>
+    <button class="tab" onclick="filterDeals('stainless',this)">Stainless Steel</button>
+    <button class="tab" onclick="filterDeals('fryer',this)">Fry Basket</button>
+    <button class="tab" onclick="filterDeals('beverageware',this)">Beverageware</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- LOYALTY SECTION -->
+<section class="loyalty-section" id="loyalty">
+  <div class="loyalty-grid">
+    <div class="loyalty-card accent">
+      <div class="loyalty-eyebrow">B2B Exclusive</div>
+      <h3 class="loyalty-title">Earn Points.<br>Save More. Every Order.</h3>
+      <p class="loyalty-desc">Join 2,400+ UAE businesses on our Loyalty Program. Earn 1 point per AED 10 spent, unlock tier-based discounts, and get priority access to new arrivals.</p>
+      <div class="loyalty-perks">
+        <div class="perk"><div class="perk-icon">✓</div>Exclusive member-only pricing on 500+ SKUs</div>
+        <div class="perk"><div class="perk-icon">✓</div>Early access to clearance sales & new arrivals</div>
+        <div class="perk"><div class="perk-icon">✓</div>Free express delivery on all orders</div>
+        <div class="perk"><div class="perk-icon">✓</div>Dedicated account manager for businesses</div>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:14px;border-radius:10px" onclick="showToast('🎉 Loyalty enrollment started!')">
+        Join Loyalty Program — Free
+      </button>
+    </div>
+    <div class="loyalty-card">
+      <div class="loyalty-eyebrow">Volume Discounts</div>
+      <h3 class="loyalty-title">Bulk Orders.<br>Bigger Savings.</h3>
+      <p class="loyalty-desc">Automatic tiered discounts applied at checkout. The more you order, the more you save — no codes needed.</p>
+      <div class="bulk-rows">
+        <div class="bulk-row">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.85)">5 – 9 units</div>
+            <div class="bulk-qty">Per order</div>
+          </div>
+          <div class="bulk-save">Save 8%</div>
+        </div>
+        <div class="bulk-row">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.85)">10 – 24 units</div>
+            <div class="bulk-qty">Per order</div>
+          </div>
+          <div class="bulk-save">Save 15%</div>
+        </div>
+        <div class="bulk-row">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.85)">25 – 49 units</div>
+            <div class="bulk-qty">Per order</div>
+          </div>
+          <div class="bulk-save">Save 22%</div>
+        </div>
+        <div class="bulk-row" style="border-color:rgba(200,16,46,.3);background:rgba(200,16,46,.08)">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--red)">50+ units</div>
+            <div class="bulk-qty">Custom pricing available</div>
+          </div>
+          <div class="bulk-save">Save 35%+</div>
+        </div>
+      </div>
+      <button class="btn-ghost" style="width:100%;justify-content:center;margin-top:20px;color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15)" onclick="showToast('📋 Bulk quote form opened!')">Get Custom Bulk Quote →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY GRID -->
+<section class="section" id="products">
+  <div class="section-head">
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-family:var(--font-head);margin-bottom:6px">Browse by Category</div>
+      <h2 class="section-title">Find What You <span>Need</span></h2>
+    </div>
+  </div>
+  <div class="cat-grid">
+    <a class="cat-card" href="#deals"><div class="cat-icon">🔥</div><div class="cat-name">Cooking Ranges</div><div class="cat-count">284 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">❄️</div><div class="cat-name">Refrigeration</div><div class="cat-count">196 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🍽️</div><div class="cat-name">Warewashing</div><div class="cat-count">143 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🥩</div><div class="cat-name">Food Prep</div><div class="cat-count">318 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🪣</div><div class="cat-name">Stainless Steel</div><div class="cat-count">420 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🌬️</div><div class="cat-name">Ventilation</div><div class="cat-count">88 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🧊</div><div class="cat-name">Ice Machines</div><div class="cat-count">64 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🥤</div><div class="cat-name">Beverageware</div><div class="cat-count">215 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">📦</div><div class="cat-name">Packaging</div><div class="cat-count">572 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🛢️</div><div class="cat-name">Gas Equipment</div><div class="cat-count">167 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">🧹</div><div class="cat-name">Cleaning</div><div class="cat-count">231 SKUs</div></a>
+    <a class="cat-card" href="#deals"><div class="cat-icon">💻</div><div class="cat-name">IT & POS</div><div class="cat-count">94 SKUs</div></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">RestaurantStore.me</div>
+      <p class="footer-desc">The UAE's leading B2B commercial kitchen equipment platform. Trusted by hotels, restaurants, and food businesses across the Middle East.</p>
+      <div style="margin-top:20px;display:flex;gap:8px">
+        <div style="width:32px;height:32px;background:rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">in</div>
+        <div style="width:32px;height:32px;background:rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">ig</div>
+        <div style="width:32px;height:32px;background:rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">wa</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-head">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-head">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Warranty</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-head">Contact</div>
+      <ul class="footer-links">
+        <li><a href="#">+971 4 XXX XXXX</a></li>
+        <li><a href="#">hello@restaurantstore.me</a></li>
+        <li><a href="#" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);padding:8px 14px;border-radius:6px;font-size:12px;font-weight:600">📋 Request Quote</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 RestaurantStore.me — All rights reserved</span>
+    <div style="display:flex;gap:16px">
+      <a href="#" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Privacy Policy</a>
+      <a href="#" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Terms of Service</a>
+      <a href="#" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">VAT: TRN 12345678</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-inner">
+      <div class="modal-img" id="modalImg"></div>
+      <div class="modal-info">
+        <div class="modal-brand" id="modalBrand"></div>
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-old" id="modalOld"></div>
+        <div id="modalSpecs"></div>
+        <div style="display:flex;gap:10px;margin-top:24px">
+          <button class="btn-primary" style="flex:1;justify-content:center;padding:12px;font-size:14px;border-radius:10px" onclick="showToast('✅ Added to cart!');closeModal()">Add to Cart</button>
+          <button class="btn-ghost" style="flex:1;justify-content:center;font-size:13px" onclick="showToast('📋 Quote requested!');closeModal()">Request Quote</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">✓</div>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+const products = [
+  {id:1,brand:'Al Bahriya',name:'Dormont RV61LLP-52 1" LP Gas Regulator — 2.5M BTU',emoji:'🔩',cat:'spare',price:640.92,old:654.01,disc:2,rating:4.5,reviews:18,badges:['rated','deal'],specs:{BTU:'2,500,000',Type:'LP Gas',Size:'1 inch',Warranty:'2 Year'}},
+  {id:2,brand:'Al Bahriya',name:'Dormont RV48CL-42 3/4" Convertible Gas Regulator — 250K BTU',emoji:'⚙️',cat:'spare',price:178.57,old:182.22,disc:2,rating:4.3,reviews:9,badges:['rated','deal'],specs:{BTU:'250,000',Type:'Convertible',Size:'3/4 inch',Warranty:'1 Year'}},
+  {id:3,brand:'Rational',name:'iCombi Pro 10-2/3 Electric Combi Oven — 10 Tray',emoji:'🔥',cat:'cooking',price:28450,old:33200,disc:14,rating:5,reviews:42,badges:['rated','sale'],specs:{Capacity:'10 x GN 2/3',Power:'Electric 3-phase',Warranty:'2 Year',Delivery:'5–7 days'}},
+  {id:4,brand:'Convotherm',name:'Maxx Pro 6.10 Electric Combi Steamer with Auto Cleaning',emoji:'♨️',cat:'cooking',price:21800,old:24500,disc:11,rating:4.8,reviews:27,badges:['rated'],specs:{Capacity:'6 x GN 1/1',Power:'Electric',AutoClean:'Yes',Warranty:'2 Year'}},
+  {id:5,brand:'Atosa',name:'2-Door Commercial Reach-In Upright Refrigerator 1300L',emoji:'❄️',cat:'cooking',price:4850,old:5200,disc:7,rating:4.4,reviews:33,badges:['deal'],specs:{Capacity:'1300 Liters',Doors:'2 Glass',Temp:'-2°C to +8°C',Warranty:'2 Year'}},
+  {id:6,brand:'Henny Penny',name:'OFG-390 Open Fryer Gas — 23L Twin Vat',emoji:'🍟',cat:'fryer',price:5400,old:5900,disc:8,rating:4.6,reviews:15,badges:['rated','deal'],specs:{Vats:'Twin 23L',Fuel:'Gas',Output:'90kg/hr',Warranty:'1 Year'}},
+  {id:7,brand:'Dormont',name:'RG7548 Gas Connector Kit 48" with Quick Disconnect',emoji:'🔧',cat:'spare',price:932.31,old:951.34,disc:2,rating:4.2,reviews:7,badges:['deal'],specs:{Length:'48 inch',Type:'Quick-Disconnect',Fittings:'2 Elbows',Warranty:'1 Year'}},
+  {id:8,brand:'Hatco',name:'GRSS-2418 Strip Heater — Stainless Steel 18" Single',emoji:'🌡️',cat:'cooking',price:1240,old:1380,disc:10,rating:4.5,reviews:22,badges:['rated'],specs:{Width:'18 inch',Wattage:'500W',Voltage:'220V',Warranty:'2 Year'}},
+  {id:9,brand:'Vollrath',name:'Stainless Steel Work Table 60" × 30" — Heavy Duty 16 Gauge',emoji:'🪣',cat:'stainless',price:880,old:950,disc:7,rating:4.7,reviews:56,badges:['rated','sale'],specs:{Size:'60" × 30"',Gauge:'16 Gauge',Undershelf:'Yes',Warranty:'3 Year'}},
+  {id:10,brand:'Advance Tabco',name:'Stainless Steel Prep Table 72" × 30" with Backsplash',emoji:'🔲',cat:'stainless',price:1420,old:1580,disc:10,rating:4.6,reviews:38,badges:['rated'],specs:{Size:'72" × 30"',Type:'Backsplash',Gauge:'14 Gauge',Warranty:'3 Year'}},
+  {id:11,brand:'Winco',name:'Fry Basket 12" × 10" Chrome-Plated Wire — Set of 6',emoji:'🧺',cat:'fryer',price:185,old:210,disc:12,rating:4.3,reviews:44,badges:['sale','new'],specs:{Size:'12" × 10"',Material:'Chrome Wire',Pack:'Set of 6',Warranty:'90 Days'}},
+  {id:12,brand:'Libbey',name:'Gibraltar Rocks Tumbler 355ml — Case of 36',emoji:'🥃',cat:'beverageware',price:430,old:480,disc:10,rating:4.8,reviews:72,badges:['rated'],specs:{Volume:'355ml',Pack:'36 pcs',Material:'Soda-Lime Glass',Dishwasher:'Yes'}},
+  {id:13,brand:'Cambro',name:'Camtainer 22.7L Insulated Beverage Server — Red',emoji:'🫙',cat:'beverageware',price:610,old:670,disc:9,rating:4.5,reviews:19,badges:['new'],specs:{Capacity:'22.7L',InsulationHrs:'24hrs',Material:'Polycarbonate',Warranty:'1 Year'}},
+  {id:14,brand:'Dormont',name:'RDC60 Coiled Restraining Cable 60" for Gas Connector',emoji:'〰️',cat:'spare',price:100.85,old:102.91,disc:2,rating:4.1,reviews:5,badges:['deal'],specs:{Length:'60 inch',Type:'Coiled Safety',Standard:'CSA Listed',Warranty:'1 Year'}},
+  {id:15,brand:'Globe',name:'SP8 8 Qt. Commercial Stand Mixer — 3/4 HP Planetary',emoji:'🍜',cat:'cooking',price:3800,old:4200,disc:10,rating:4.9,reviews:31,badges:['rated','sale'],specs:{Bowl:'8 Quart',Power:'3/4 HP',Attachments:'3 included',Warranty:'2 Year'}},
+];
+
+let activeCategory = 'all';
+
+function renderProducts(cat){
+  const grid = document.getElementById('productGrid');
+  const list = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="openModal(${p.id})">
+      <div class="card-img">
+        <span style="font-size:52px">${p.emoji}</span>
+        <div class="badges">
+          ${p.badges.includes('rated') ? '<span class="badge rated">Highly Rated</span>' : ''}
+          ${p.badges.includes('deal') ? '<span class="badge deal">Best Buy</span>' : ''}
+          ${p.badges.includes('sale') ? '<span class="badge sale">Sale</span>' : ''}
+          ${p.badges.includes('new') ? '<span class="badge new">New</span>' : ''}
+        </div>
+        <button class="quick-view" onclick="event.stopPropagation();openModal(${p.id})">Quick View</button>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-rating">
+          <span class="stars">${'★'.repeat(Math.floor(p.rating))}${p.rating%1?'½':''}</span>
+          <span class="rating-count">(${p.reviews})</span>
+        </div>
+        <div class="card-pricing">
+          <span class="price-now">AED ${p.price.toLocaleString()}</span>
+          <span class="price-old">AED ${p.old.toLocaleString()}</span>
+          <span class="discount-pct">-${p.disc}%</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="event.stopPropagation()">−</button>
+          <span class="qty-val">1</span>
+          <button class="qty-btn" onclick="event.stopPropagation()">+</button>
+        </div>
+        <button class="add-cart" onclick="event.stopPropagation();showToast('✅ Added to cart!')">Add to Cart</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterDeals(cat, btn){
+  activeCategory = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+function openModal(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  document.getElementById('modalImg').textContent = p.emoji;
+  document.getElementById('modalBrand').textContent = p.brand;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = 'AED ' + p.price.toLocaleString();
+  document.getElementById('modalOld').textContent = 'Was AED ' + p.old.toLocaleString();
+  document.getElementById('modalSpecs').innerHTML = Object.entries(p.specs).map(([k,v]) =>
+    `<div class="spec-row"><span class="spec-label">${k}</span><span class="spec-val">${v}</span></div>`
+  ).join('');
+  document.getElementById('productModal').classList.add('open');
+}
+function closeModal(){document.getElementById('productModal').classList.remove('open')}
+
+let toastTimeout;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+const searchResults = {
+  'combi oven under 30000 AED': [products[2], products[3]],
+  'stainless steel table 2 meter': [products[8], products[9]],
+  'gas regulator 2 inch': [products[0], products[1], products[6]],
+  'fry basket': [products[10], products[5]],
+};
+
+function handleSearch(val){
+  const dd = document.getElementById('searchDropdown');
+  if(val.length > 2){
+    const lower = val.toLowerCase();
+    const matches = products.filter(p =>
+      p.name.toLowerCase().includes(lower) ||
+      p.brand.toLowerCase().includes(lower) ||
+      p.cat.toLowerCase().includes(lower)
+    ).slice(0,6);
+    populateDropdown(matches, val);
+    dd.classList.add('show');
+  } else {
+    dd.classList.remove('show');
+  }
+}
+
+function runSampleSearch(query){
+  const input = document.getElementById('smartInput');
+  input.value = query;
+  const matches = searchResults[query] || products.slice(0,3);
+  populateDropdown(matches, query);
+  document.getElementById('searchDropdown').classList.add('show');
+}
+
+function populateDropdown(matches, query){
+  const grid = document.getElementById('sdProducts');
+  grid.innerHTML = matches.map(p => `
+    <div class="sd-card" onclick="openModal(${p.id})">
+      <div class="sd-img">${p.emoji}</div>
+      <div>
+        <div class="sd-name">${p.name.slice(0,45)}${p.name.length>45?'…':''}</div>
+        <div class="sd-price">AED ${p.price.toLocaleString()}</div>
+      </div>
+    </div>
+  `).join('');
+  const tags = document.getElementById('sdTags');
+  const priceMatch = query.match(/(\d[\d,]+)\s*aed/i);
+  const dimMatch = query.match(/(\d+)\s*(inch|cm|meter|mm)/i);
+  let tagHTML = `<div class="sd-tag">Category: ${matches[0]?.cat || 'All'}</div>`;
+  if(priceMatch) tagHTML += `<div class="sd-tag price">Max: AED ${priceMatch[1]}</div>`;
+  if(dimMatch) tagHTML += `<div class="sd-tag dim">Size: ${dimMatch[1]} ${dimMatch[2]}</div>`;
+  tags.innerHTML = tagHTML;
+}
+
+function showDropdown(){
+  const val = document.getElementById('smartInput').value;
+  if(val.length > 2) document.getElementById('searchDropdown').classList.add('show');
+}
+function hideDropdown(){document.getElementById('searchDropdown').classList.remove('show')}
+
+renderProducts('all');
+</script>
+</body>
+</html>
